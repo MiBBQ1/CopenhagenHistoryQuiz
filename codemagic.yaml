@@ -6,6 +6,9 @@ workflows:
     environment:
       xcode: latest
     scripts:
+      - name: Configure git to use token
+        script: |
+          git remote set-url origin https://$GITHUB_TOKEN@github.com/MiBBQ1/CopenhagenHistoryQuiz.git
       - name: Install CocoaPods dependencies
         script: |
           pod install --project-directory=CopenhagenHistoryQuiz
