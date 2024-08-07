@@ -1,25 +1,71 @@
 workflows:
   ios-workflow:
-    name: iOS Workflow
-    max_build_duration: 60
-    instance_type: macos_instance
+    name: ios workflow
+    max_build_duration: 120
+    integrations:
+      app_store_connect: "Alyssa"
     environment:
-      xcode: latest
+      xcode: 15.0.1
+
+      vars:
+        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcworkspace"
+        XCODE_SCHEME: "CopenhagenHistoryQuiz"
+        
+        CERTIFICATE_PRIVATE_KEY: |
+        -----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEA03xEiA8EOZSLSD0ZBHln8iwBX9/9CZVPA0DyCagfhqzWzUmP
+mkOmZTxSJlW/LYqraf6kPeGilw2BoMsenjf6ok05VzWpf6kg+AkDT9c4ePPjUfpP
+LFwcDRn5da6wVIQZ/m7M3hsaNIHt+74KOWx9qAzPzdcHqktxFxTMcu3pjWKPXGLn
+LY6r/vSbuAwEstaItm8bT7EV3xE3oP5PgTRkwNu1cMjKKIWFNKik6CCCt3RhEwWo
+vh0naPtvUmH+Toh7ExrV6mSQs8hsK0l+ol66O46ORAQ6hnhq16IborrknisSFk4X
+iKk6QqYzLP5nYJV2z/H1t2V3dXQytRTgYSnyCQIDAQABAoIBAQCh/K8pYAcma4b7
+wACnkq5xqg8rdo+EhZ7NqTM6/lGXgE/PUibyTBrps/hgcJFMushtGaSH2YoGFUxS
+8wHywoHxSyE+kVXQ+KTOF2k4AGu7CWP26Lk4Cx1ZU6nl3/Yj5kNaxVeaUDwUN+kn
+R/rg3R6qV5Xb3nZ6k+p9eWrYJS8dIRle6X0pmyZx0IoxoUYBHJGG3iL94Cl0Ityi
+4KZbGRynPeQI/rc+GKCnhcFz6NNmwhujdj0qPpnGCNAs5wbbjWT5YZKG1cbMTEF7
+bEU8Hr8H+IErEMsmEESClxj7esxsmBgw78oo1Ix0u12llg51Kh7uqQ5i1jsaj1ir
+KLVYwjm5AoGBAP1Fd+Knfo8XK9nNzgL6pTbdxP100oYVNLHDnsdY78UDNgx5HlLP
+rJm2czYcCUWQkf7iRAmcA2pXhU4QsMcDY4YGJ3plsHY5AlOlDfUuIcz041ZXVJsa
+bL5tMxhQy5+Bcffh3N1hEAYsVx/z0FFD2hJYyLS2sOAjQ13GgDWZgyb3AoGBANXD
+jV/qs23F79ejqePNVWHc0+J+QERkOH/BqhrpGsa4z0nPjqP0vSR81wKSJTdCNik/
+i+Btu1nsvWdZiwJtDokqVTkkw7NUnzSv5jQh4FGYg0qXj26Cs7BRXXDz5Taxa6cY
+1QEdhIMY1D/cuNoSM/tf+j0TklIaO7/Q8Z+veG7/AoGAYbEtCAkxYQJAENg4kZ+a
+oKo0NMud9MgzNipNkXk1qxmM/IyvbKPcYMImeIWh8epM1jLyqX47NwahTbZUab9d
+4TF4gta8lS1yP09YLe1obkU7d29iHB26Ok2musdXc6QbkNDXP7ET3D24MYP7I413
+jUIf0MzzNtGDR6WsiIA5PYsCgYAJimHL7yC0/ImY2UAi36444O9AA5yAsOxon08l
+RlQgnGz8AVx/atPqRfwerEEm9ziNnL10ddFP0SYe77spj45/hrkpBMALR/KXGmau
+2vg1DBaIBL2tE/5LF0aRXQFU8JQ6b/xJwXSBmWEXvJUvfnJ9fKohgbcdHPiftgai
+tuUsJwKBgDryuuKC8KWAtGG7XUU7M9TSjwS/jV+fBQYSp1sY0IBX9wgMm5BUWw/E
+VLVOR6+KiEhKES8QVvlBjjAZrglpmO7wo8UmQ6mQxltqprxT/tHV7ePgk1rNoY8t
+XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
+-----END RSA PRIVATE KEY-----
+
+        
     scripts:
-      - name: Configure git to use token
+      - name: Set up keychain to be used for code signing using Codemagic CLI 'keychain' command
+        script: keychain initialize
+      - name: Fetch signing files for main target
         script: |
-          git remote set-url origin https://$GITHUB_TOKEN@github.com/MiBBQ1/CopenhagenHistoryQuiz.git
-      - name: Install CocoaPods dependencies
+          set -x # Enable command echo for debugging
+          app-store-connect fetch-signing-files "com.immanuel.CopenhagenHistoryQuiz" \
+            --type IOS_APP_STORE \
+            --create
+      - name: Set up signing certificate
+        script: keychain add-certificates
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build ipa for distribution
         script: |
-          pod install --project-directory=CopenhagenHistoryQuiz
-      - name: Build the app
+          set -x # Enable command echo for debugging
+          xcode-project build-ipa \
+            --workspace "$XCODE_PROJECT"  \
+            --scheme "$XCODE_SCHEME" \
+            --archive-xcargs "CODE_SIGN_STYLE=Auto"
+      - name: Publish
         script: |
-          xcodebuild -workspace CopenhagenHistoryQuiz/CopenhagenHistoryQuiz.xcworkspace -scheme CopenhagenHistoryQuiz -configuration Release build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+          set -x # Enable command echo for debugging
+          app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
+    
     artifacts:
-      - build/ios/Release-iphoneos/*.app
-      - build/ios/Release-iphoneos/*.ipa
-    publishing:
-      scripts:
-        - name: Publish to App Store
-          script: |
-            xcrun altool --upload-app -f build/ios/Release-iphoneos/CopenhagenHistoryQuiz.ipa -t ios --apiKey $APP_STORE_CONNECT_API_KEY --apiIssuer $APP_STORE_CONNECT_API_ISSUER --apiKey $APP_STORE_CONNECT_API_PRIVATE_KEY
+      - build/ios/ipa/*.ipa
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
