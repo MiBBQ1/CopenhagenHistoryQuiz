@@ -53,6 +53,7 @@ workflows:
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
+          xcodebuild -workspace "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings -verbose
           xcode-project build-ipa \
             --workspace "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
