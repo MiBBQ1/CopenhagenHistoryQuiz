@@ -2,7 +2,7 @@ import UIKit
 
 extension UIViewController {
     func setBackImage() {
-        let imageView = UIImageView(image: UIImage(named: "helmBg"))
+        let imageView = UIImageView(image: UIImage(named: "backgr"))
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
