@@ -37,7 +37,7 @@ workflows:
           VLVOR6+KiEhKES8QVvlBjjAZrglpmO7wo8UmQ6mQxltqprxT/tHV7ePgk1rNoY8t
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
-    scripts:
+   scripts:
       - name: Set up keychain to be used for code signing using Codemagic CLI 'keychain' command
         script: keychain initialize
       - name: Fetch signing files for main target
@@ -61,6 +61,7 @@ workflows:
         script: |
           set -x # Enable command echo for debugging
           app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
+    
     artifacts:
       - build/ios/ipa/*.ipa
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
