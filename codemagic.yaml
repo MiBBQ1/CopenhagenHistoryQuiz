@@ -3,7 +3,7 @@ workflows:
     name: ios workflow
     max_build_duration: 120
     integrations:
-      app_store_connect: "Copenhagen History Quiz"
+      app_store_connect: "Copenhagen History Quiz2"
     environment:
       xcode: 15.4
       vars:
