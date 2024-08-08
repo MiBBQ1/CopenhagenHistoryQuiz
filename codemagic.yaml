@@ -38,18 +38,32 @@ workflows:
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
     scripts:
+      - name: Clean up Package.resolved
+        script: |
+          echo "Cleaning up Package.resolved"
+          rm -f "$XCODE_PROJECT/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+
+      - name: Reset Package Caches
+        script: |
+          echo "Resetting package caches"
+          xcodebuild -resolvePackageDependencies
+
       - name: Set up keychain to be used for code signing using Codemagic CLI 'keychain' command
         script: keychain initialize
+
       - name: Fetch signing files for main target
         script: |
           set -x # Enable command echo for debugging
           app-store-connect fetch-signing-files "com.immanuel.CopenhagenHistoryQuiz" \
             --type IOS_APP_STORE \
             --create
+
       - name: Set up signing certificate
         script: keychain add-certificates
+
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles
+
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
@@ -58,10 +72,12 @@ workflows:
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
             --archive-xcargs "CODE_SIGN_STYLE=Auto"
+
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
           app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
+
     artifacts:
       - build/ios/ipa/*.ipa
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
