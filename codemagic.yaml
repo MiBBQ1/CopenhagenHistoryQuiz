@@ -42,6 +42,8 @@ workflows:
         script: |
           echo "Listing project directory contents..."
           ls -la .
+          echo "Finding Xcode project file..."
+          find . -name "CopenhagenHistoryQuiz.xcodeproj"
       - name: Check if Xcode project exists
         script: |
           echo "Checking if Xcode project file exists..."
