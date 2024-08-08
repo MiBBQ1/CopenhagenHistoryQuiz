@@ -91,7 +91,8 @@ workflows:
             -scheme "$XCODE_SCHEME" \
             -archivePath build/ios/xcarchive/CopenhagenHistoryQuiz.xcarchive \
             CODE_SIGN_STYLE=Automatic \
-            DEVELOPMENT_TEAM=29FT4Q68H4
+            DEVELOPMENT_TEAM=29FT4Q68H4 \
+            -allowProvisioningUpdates
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
