@@ -57,10 +57,7 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: |
           set -x # Enable command echo for debugging
-          xcode-project use-profiles \
-            --project "$XCODE_PROJECT" \
-            --scheme "$XCODE_SCHEME" \
-            --profile-names "CopenhagenHistoryQuiz_Profile"
+          xcode-project use-profiles --project "$XCODE_PROJECT"
       - name: List project directory contents
         script: |
           echo "Listing project directory contents..."
