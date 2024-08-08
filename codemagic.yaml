@@ -55,21 +55,35 @@ workflows:
       - name: Set up signing certificate
         script: keychain add-certificates
       - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: List root directory contents
         script: |
-          set -x # Enable command echo for debugging
-          xcode-project use-profiles --project "$XCODE_PROJECT"
+          echo "Listing root directory contents..."
+          ls -la /
       - name: List project directory contents
         script: |
           echo "Listing project directory contents..."
           ls -la .
+      - name: Validate Xcode project and scheme
+        script: |
+          set -x # Enable command echo for debugging
+          if [ ! -f "$XCODE_PROJECT" ]; then
+            echo "Xcode project file does not exist: $XCODE_PROJECT"
+            exit 1
+          fi
+          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
-            --archive-xcargs 'CODE_SIGN_STYLE=Auto'
+            --archive-xcargs "CODE_SIGN_STYLE=Auto"
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
           app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
