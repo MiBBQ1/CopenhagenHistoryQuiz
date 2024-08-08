@@ -7,7 +7,7 @@ workflows:
     environment:
       xcode: 15.0.1
       vars:
-        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj"
+        XCODE_PROJECT: "CopenhagenHistoryQuiz/CopenhagenHistoryQuiz.xcodeproj"
         XCODE_SCHEME: "CopenhagenHistoryQuiz"
         CERTIFICATE_PRIVATE_KEY: |
           -----BEGIN RSA PRIVATE KEY-----
@@ -38,6 +38,12 @@ workflows:
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
     scripts:
+      - name: Clean up and resolve package dependencies
+        script: |
+          echo "Deleting corrupted Package.resolved file..."
+          rm -f "$XCODE_PROJECT/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+          echo "Resolving package dependencies..."
+          xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
       - name: Set up keychain to be used for code signing using Codemagic CLI 'keychain' command
         script: keychain initialize
       - name: Fetch signing files for main target
@@ -50,10 +56,17 @@ workflows:
         script: keychain add-certificates
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles
+      - name: Validate Xcode project and scheme
+        script: |
+          set -x # Enable command echo for debugging
+          if [ ! -f "$XCODE_PROJECT" ]; then
+            echo "Xcode project file does not exist: $XCODE_PROJECT"
+            exit 1
+          fi
+          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
-          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings -verbose
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
@@ -62,6 +75,3 @@ workflows:
         script: |
           set -x # Enable command echo for debugging
           app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
