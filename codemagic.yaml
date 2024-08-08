@@ -104,6 +104,10 @@ workflows:
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
+          xcode-project build-ipa \
+            --archive-path build/ios/xcarchive/CopenhagenHistoryQuiz.xcarchive \
+            --export-method app-store \
+            --export-options-plist /Users/builder/export_options.plist
           app-store-connect publish --path "/Users/builder/clone/build/ios/ipa/CopenhagenHistoryQuiz.ipa"
 
     artifacts:
