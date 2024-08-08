@@ -56,6 +56,11 @@ workflows:
               <true/>
               <key>teamID</key>
               <string>29FT4Q68H4</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>com.immanuel.CopenhagenHistoryQuiz</key>
+                  <string>YourProvisioningProfileName</string>
+              </dict>
               <key>thinning</key>
               <string>&lt;none&gt;</string>
           </dict>
