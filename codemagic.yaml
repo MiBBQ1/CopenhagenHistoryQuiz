@@ -7,7 +7,7 @@ workflows:
     environment:
       xcode: 15.0.1
       vars:
-        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj" # Убедитесь, что путь правильный
+        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj" # Обновите путь, если необходимо
         XCODE_SCHEME: "CopenhagenHistoryQuiz"
         CERTIFICATE_PRIVATE_KEY: |
           -----BEGIN RSA PRIVATE KEY-----
@@ -38,6 +38,15 @@ workflows:
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
     scripts:
+      - name: Check if Xcode project exists
+        script: |
+          echo "Checking if Xcode project file exists..."
+          if [ ! -f "$XCODE_PROJECT" ]; then
+            echo "Xcode project file does not exist: $XCODE_PROJECT"
+            exit 1
+          else
+            echo "Xcode project file found: $XCODE_PROJECT"
+          fi
       - name: Clean up and resolve package dependencies
         script: |
           echo "Deleting corrupted Package.resolved file..."
@@ -67,10 +76,6 @@ workflows:
       - name: Validate Xcode project and scheme
         script: |
           set -x # Enable command echo for debugging
-          if [ ! -f "$XCODE_PROJECT" ]; then
-            echo "Xcode project file does not exist: $XCODE_PROJECT"
-            exit 1
-          fi
           xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
       - name: Build ipa for distribution
         script: |
