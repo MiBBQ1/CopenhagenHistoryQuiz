@@ -44,10 +44,11 @@ workflows:
           ls -la .
           echo "Finding Xcode project file..."
           find . -name "CopenhagenHistoryQuiz.xcodeproj"
+          echo "XCODE_PROJECT value: $XCODE_PROJECT"
       - name: Check if Xcode project exists
         script: |
           echo "Checking if Xcode project file exists..."
-          if [ ! -f "$XCODE_PROJECT" ]; then
+          if [ ! -e "$XCODE_PROJECT" ]; then
             echo "Xcode project file does not exist: $XCODE_PROJECT"
             exit 1
           else
