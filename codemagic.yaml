@@ -45,44 +45,9 @@ workflows:
           echo "Finding Xcode project file..."
           find . -name "CopenhagenHistoryQuiz.xcodeproj"
           echo "XCODE_PROJECT value: $XCODE_PROJECT"
-      - name: Check if Xcode project exists
+      - name: Check build settings and scheme
         script: |
-          echo "Checking if Xcode project file exists..."
-          if [ ! -e "$XCODE_PROJECT" ]; then
-            echo "Xcode project file does not exist: $XCODE_PROJECT"
-            exit 1
-          else
-            echo "Xcode project file found: $XCODE_PROJECT"
-          fi
-      - name: Clean up and resolve package dependencies
-        script: |
-          echo "Deleting corrupted Package.resolved file..."
-          rm -f "$XCODE_PROJECT/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-          echo "Resolving package dependencies..."
-          xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
-      - name: Set up keychain to be used for code signing using Codemagic CLI 'keychain' command
-        script: keychain initialize
-      - name: Fetch signing files for main target
-        script: |
-          set -x # Enable command echo for debugging
-          app-store-connect fetch-signing-files "com.immanuel.CopenhagenHistoryQuiz" \
-            --type IOS_APP_STORE \
-            --create
-      - name: Set up signing certificate
-        script: keychain add-certificates
-      - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
-      - name: List root directory contents
-        script: |
-          echo "Listing root directory contents..."
-          ls -la /
-      - name: List project directory contents after setup
-        script: |
-          echo "Listing project directory contents after setup..."
-          ls -la .
-      - name: Validate Xcode project and scheme
-        script: |
-          set -x # Enable command echo for debugging
+          echo "Checking Xcode project build settings and scheme..."
           xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
       - name: Build ipa for distribution
         script: |
@@ -90,7 +55,7 @@ workflows:
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
-            --archive-xcargs "CODE_SIGN_STYLE=Auto"
+            --archive-xcargs "CODE_SIGN_STYLE=Auto DEVELOPMENT_TEAM=29FT4Q68H4 CODE_SIGN_IDENTITY='Apple Distribution'"
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
