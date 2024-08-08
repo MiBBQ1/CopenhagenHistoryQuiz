@@ -55,7 +55,12 @@ workflows:
       - name: Set up signing certificate
         script: keychain add-certificates
       - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
+        script: |
+          set -x # Enable command echo for debugging
+          xcode-project use-profiles \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME" \
+            --profile-names "CopenhagenHistoryQuiz_Profile"
       - name: List project directory contents
         script: |
           echo "Listing project directory contents..."
@@ -66,7 +71,7 @@ workflows:
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
-            --archive-xcargs "CODE_SIGN_STYLE=Auto"
+            --archive-xcargs "CODE_SIGN_STYLE=Manual"
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
