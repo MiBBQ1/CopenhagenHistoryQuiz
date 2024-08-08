@@ -38,6 +38,10 @@ workflows:
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
     scripts:
+      - name: Clean up corrupted Package.resolved
+        script: |
+          echo "Cleaning up corrupted Package.resolved file..."
+          rm -f "$XCODE_PROJECT/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
       - name: List project directory contents
         script: |
           echo "Listing project directory contents..."
@@ -45,10 +49,19 @@ workflows:
           echo "Finding Xcode project file..."
           find . -name "CopenhagenHistoryQuiz.xcodeproj"
           echo "XCODE_PROJECT value: $XCODE_PROJECT"
-      - name: Check build settings and scheme
+      - name: Check if Xcode scheme exists
         script: |
-          echo "Checking Xcode project build settings and scheme..."
-          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
+          echo "Checking if Xcode scheme exists..."
+          if ! xcodebuild -project "$XCODE_PROJECT" -list | grep -q "$XCODE_SCHEME"; then
+            echo "Xcode scheme does not exist: $XCODE_SCHEME"
+            exit 1
+          else
+            echo "Xcode scheme found: $XCODE_SCHEME"
+          fi
+      - name: Resolve package dependencies
+        script: |
+          echo "Resolving package dependencies..."
+          xcodebuild -resolvePackageDependencies -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME"
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
