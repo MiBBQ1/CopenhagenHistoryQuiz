@@ -7,7 +7,7 @@ workflows:
     environment:
       xcode: 15.0.1
       vars:
-        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj"
+        XCODE_PROJECT: "./CopenhagenHistoryQuiz.xcodeproj"
         XCODE_SCHEME: "CopenhagenHistoryQuiz"
         CERTIFICATE_PRIVATE_KEY: |
           -----BEGIN RSA PRIVATE KEY-----
