@@ -56,14 +56,6 @@ workflows:
         script: keychain add-certificates
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles
-      - name: Validate Xcode project and scheme
-        script: |
-          set -x # Enable command echo for debugging
-          if [ ! -f "$XCODE_PROJECT" ]; then
-            echo "Xcode project file does not exist: $XCODE_PROJECT"
-            exit 1
-          fi
-          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -showBuildSettings
       - name: Build ipa for distribution
         script: |
           set -x # Enable command echo for debugging
