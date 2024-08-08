@@ -59,7 +59,7 @@ workflows:
               <key>provisioningProfiles</key>
               <dict>
                   <key>com.immanuel.CopenhagenHistoryQuiz</key>
-                  <string>YourProvisioningProfileName</string>
+                  <string>Copenhagen History Quiz2</string>
               </dict>
               <key>thinning</key>
               <string>&lt;none&gt;</string>
@@ -96,7 +96,7 @@ workflows:
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
-            --archive-xcargs "CODE_SIGN_STYLE=Auto DEVELOPMENT_TEAM=29FT4Q68H4 CODE_SIGN_IDENTITY='Apple Distribution'"
+            --archive-xcargs "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=29FT4Q68H4 CODE_SIGN_IDENTITY='Apple Distribution' PROVISIONING_PROFILE_SPECIFIER='Copenhagen History Quiz2'"
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
