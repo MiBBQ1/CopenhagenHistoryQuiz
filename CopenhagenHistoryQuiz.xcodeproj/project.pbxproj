@@ -12,8 +12,6 @@
 		53E15FCE2C6516FE001B2753 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 53E15FCD2C6516FE001B2753 /* Swifter */; };
 		53E15FD12C65170A001B2753 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 53E15FD02C65170A001B2753 /* AppsFlyerLib */; };
 		53E15FD42C651714001B2753 /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = 53E15FD32C651714001B2753 /* OneSignalFramework */; };
-		53E15FDC2C651AC5001B2753 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E15FDB2C651AC5001B2753 /* NotificationService.swift */; };
-		53E15FE02C651AC6001B2753 /* OneSignalPush.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 53E15FD92C651AC5001B2753 /* OneSignalPush.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53E15FE82C65354F001B2753 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 53E15FE62C65354F001B2753 /* InfoPlist.strings */; };
 		A59BE5602C5D704800A99AF5 /* CopenhagenHistoryQuizApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59BE55F2C5D704800A99AF5 /* CopenhagenHistoryQuizApp.swift */; };
 		A59BE5622C5D704800A99AF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59BE5612C5D704800A99AF5 /* ContentView.swift */; };
@@ -63,16 +61,6 @@
 		A59BE5CB2C605CA600A99AF5 /* correct.wav in Resources */ = {isa = PBXBuildFile; fileRef = A59BE5CA2C605CA600A99AF5 /* correct.wav */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		53E15FDE2C651AC6001B2753 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A59BE5542C5D704800A99AF5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 53E15FD82C651AC5001B2753;
-			remoteInfo = OneSignalPush;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		53E15FE42C651AC6001B2753 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -80,7 +68,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				53E15FE02C651AC6001B2753 /* OneSignalPush.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,7 +77,6 @@
 /* Begin PBXFileReference section */
 		53E15FC82C6516D6001B2753 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53E15FCA2C6516EE001B2753 /* LocalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalServer.swift; sourceTree = "<group>"; };
-		53E15FD92C651AC5001B2753 /* OneSignalPush.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalPush.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		53E15FDB2C651AC5001B2753 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53E15FDD2C651AC5001B2753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53E15FE52C651B4A001B2753 /* CopenhagenHistoryQuiz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopenhagenHistoryQuiz.entitlements; sourceTree = "<group>"; };
@@ -155,13 +141,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		53E15FD62C651AC5001B2753 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A59BE5592C5D704800A99AF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -197,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				A59BE55C2C5D704800A99AF5 /* CopenhagenHistoryQuiz.app */,
-				53E15FD92C651AC5001B2753 /* OneSignalPush.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -335,23 +313,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		53E15FD82C651AC5001B2753 /* OneSignalPush */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 53E15FE12C651AC6001B2753 /* Build configuration list for PBXNativeTarget "OneSignalPush" */;
-			buildPhases = (
-				53E15FD52C651AC5001B2753 /* Sources */,
-				53E15FD62C651AC5001B2753 /* Frameworks */,
-				53E15FD72C651AC5001B2753 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OneSignalPush;
-			productName = OneSignalPush;
-			productReference = 53E15FD92C651AC5001B2753 /* OneSignalPush.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		A59BE55B2C5D704800A99AF5 /* CopenhagenHistoryQuiz */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A59BE56A2C5D704900A99AF5 /* Build configuration list for PBXNativeTarget "CopenhagenHistoryQuiz" */;
@@ -364,7 +325,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				53E15FDF2C651AC6001B2753 /* PBXTargetDependency */,
 			);
 			name = CopenhagenHistoryQuiz;
 			packageProductDependencies = (
@@ -386,9 +346,6 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					53E15FD82C651AC5001B2753 = {
-						CreatedOnToolsVersion = 15.4;
-					};
 					A59BE55B2C5D704800A99AF5 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -422,19 +379,11 @@
 			projectRoot = "";
 			targets = (
 				A59BE55B2C5D704800A99AF5 /* CopenhagenHistoryQuiz */,
-				53E15FD82C651AC5001B2753 /* OneSignalPush */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		53E15FD72C651AC5001B2753 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A59BE55A2C5D704800A99AF5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -465,14 +414,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		53E15FD52C651AC5001B2753 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				53E15FDC2C651AC5001B2753 /* NotificationService.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A59BE5582C5D704800A99AF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,14 +452,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		53E15FDF2C651AC6001B2753 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 53E15FD82C651AC5001B2753 /* OneSignalPush */;
-			targetProxy = 53E15FDE2C651AC6001B2753 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		53E15FE62C65354F001B2753 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -540,56 +473,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		53E15FE22C651AC6001B2753 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OneSignalPush/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OneSignalPush;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.immanuel.CopenhagenHistoryQuiz.OneSignalPush;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		53E15FE32C651AC6001B2753 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OneSignalPush/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OneSignalPush;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.immanuel.CopenhagenHistoryQuiz.OneSignalPush;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		A59BE5682C5D704900A99AF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -794,15 +677,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		53E15FE12C651AC6001B2753 /* Build configuration list for PBXNativeTarget "OneSignalPush" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				53E15FE22C651AC6001B2753 /* Debug */,
-				53E15FE32C651AC6001B2753 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A59BE5572C5D704800A99AF5 /* Build configuration list for PBXProject "CopenhagenHistoryQuiz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
