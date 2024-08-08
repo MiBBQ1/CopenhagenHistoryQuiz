@@ -7,7 +7,7 @@ workflows:
     environment:
       xcode: 15.0.1
       vars:
-        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj" # Обновите путь, если необходимо
+        XCODE_PROJECT: "CopenhagenHistoryQuiz.xcodeproj" # Убедитесь, что путь правильный
         XCODE_SCHEME: "CopenhagenHistoryQuiz"
         CERTIFICATE_PRIVATE_KEY: |
           -----BEGIN RSA PRIVATE KEY-----
@@ -38,6 +38,10 @@ workflows:
           XPK5OAE4cL2D9rMQKxNPXbErS9YMGcGBusIHmpjB2ZX2HqADD0Tn
           -----END RSA PRIVATE KEY-----
     scripts:
+      - name: List project directory contents
+        script: |
+          echo "Listing project directory contents..."
+          ls -la .
       - name: Check if Xcode project exists
         script: |
           echo "Checking if Xcode project file exists..."
@@ -69,9 +73,9 @@ workflows:
         script: |
           echo "Listing root directory contents..."
           ls -la /
-      - name: List project directory contents
+      - name: List project directory contents after setup
         script: |
-          echo "Listing project directory contents..."
+          echo "Listing project directory contents after setup..."
           ls -la .
       - name: Validate Xcode project and scheme
         script: |
