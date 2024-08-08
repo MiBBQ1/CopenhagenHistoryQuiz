@@ -68,7 +68,7 @@ workflows:
           xcode-project build-ipa \
             --project "$XCODE_PROJECT"  \
             --scheme "$XCODE_SCHEME" \
-            --archive-xcargs "CODE_SIGN_STYLE=Manual"
+            --archive-xcargs "DEVELOPMENT_TEAM=29FT4Q68H4 CODE_SIGN_IDENTITY='Apple Distribution' CODE_SIGN_STYLE=Manual"
       - name: Publish
         script: |
           set -x # Enable command echo for debugging
